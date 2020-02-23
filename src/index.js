@@ -2,11 +2,10 @@ import './obj.js'
 import './str.js'
 import './arr.js'
 import './fn.js'
-import './url.js'
 import './date.js'
 
 // useful pipes
-export default {
+export const pipes = {
   ...Function,
   str: String,
   arr: Array,

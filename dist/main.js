@@ -1,1 +1,752 @@
-!function(e){var t={};function r(n){if(t[n])return t[n].exports;var a=t[n]={i:n,l:!1,exports:{}};return e[n].call(a.exports,a,a.exports,r),a.l=!0,a.exports}r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n})},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var a in e)r.d(n,a,function(t){return e[t]}.bind(null,a));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=5)}([function(e,t){Object.EMPTY=Object.freeze({}),Object.isEmpty=e=>!e||e instanceof Object&&(Array.isArray(e)?0===e.length:e instanceof Map?0===e.size:0===Object.keys(e).length),Object.dig=(e,t)=>t.split(".").reduce((e,t)=>e?e[t]:void 0,e),Object.dot=(e,t)=>e?e[t]:null;const r={true:!0,false:!1,undefined:void 0};Object.decode=e=>{const t=decodeURIComponent(e);if("{[".indexOf(t[0])>-1)return JSON.parse(t);const n=+t;return t.length<=17&&!isNaN(n)?n:r[t]||t},Object.encode=e=>encodeURIComponent("object"==typeof e?JSON.stringify(e):`${e}`)},function(e,t){function r(e){if(!e)return e;const t=`${e}`;return t[0].toUpperCase()+t.slice(1)}function n(e,t="_"){return e&&e.length&&e.split(t).map((e,t)=>t?r(e):e).join("")||""}String.format=(e,t)=>`${e||""}`.replace(/\{([\S]+)\}/i,(e,r)=>null!=(t&&t[r])?t[r]:""),String.wrap=(e,t)=>e?`${t||"*"}`.replace("*",e):"",String.tail=(e,t=".")=>{if(!e)return"";const r=e.lastIndexOf(t);return-1===r?e:e.slice(r+t.length)},String.lastTail=(e,t=".")=>(""+e).split(t).slice(-1)[0],String.head=(e,t=".")=>{if(!e)return"";const r=e.indexOf(t);return-1===r?e:e.slice(0,r)},String.pad=(e,t=2,r="0")=>{let n=String(e);for(;n.length<t;)n=`${r}${n}`;return n},String.capitalize=r,String.camelize=n,String.mirror=e=>(e||"").split("").reduce((e,t)=>t+e,""),String.snakeCase=e=>(e||"").replace(/([a-z])([A-Z])/g,"$1_$2"),String.proper=e=>r(n(e)),String.upper=e=>(""+e).toUpperCase()},function(e,t){Array.EMPTY=Object.freeze([]),Array.slice=(e,t=0,r)=>e?e.slice(t,r):[],Array.groupBy=function(e,t="type"){const r={},n="string"==typeof t?e=>e[t]:t,a=(e,t)=>{const n=r[e]||(r[e]={id:e,count:0,subs:[]});n.count++,(n.items||(n.items=n.subs)).push(t)};return(e||[]).forEach(e=>{const t=n(e);Array.isArray(t)?t.forEach(t=>a(t,e)):a(t,e)}),r},Array.sortBy=function(e,t="name",r=1){let n=t;return"string"==typeof t&&("-"===t[0]&&(r=-1,t=t.substr(1)),n=e=>e[t]),(e||[]).slice(0).sort((function(e,t){const a=n(e),o=n(t);return a<o?-r:a>o?r:0}))},Array.index=Array.toHash=(e,t="id",r)=>{const n={};if(e){const a="string"==typeof t?e=>e[t]:t;e.forEach(e=>{n[a(e)]=r?e[r]:e})}return n}},function(e,t){var r,n;Object.assign(Function,{ID:e=>e,next:(n=1,(e="")=>e+n++),throw:(e,t=Error)=>{throw"string"==typeof e?new t(e):e},assert:(e,t,r=Error)=>{if(!e)throw"string"==typeof t?new r(t):t},log:(e,t)=>(console.log(t||"pipe",e),e),track:(e,t,r)=>(...n)=>(console.log("track",t||r),(e||Function.ID)(...n)),debugger:()=>{},dot:(e,t)=>e?e[t]:null,includes:(e,t)=>e.includes&&e.includes(t),then:(e,t="",r="")=>e?t:r,not:e=>!e,isUndefined:e=>void 0===e,isTrue:e=>!0===e,isFalse:e=>!1===e,or:(e,t)=>e||t,and:(e,t)=>e&&t,equals:(e,t)=>e==t,greater:(e,t)=>e>t,less:(e,t)=>e<t,plus:(e,t)=>+e+ +t,minus:(e,t)=>+e-+t,multiply:(e,t)=>+e*+t,compose:(...e)=>t=>e.reduceRight((e,t)=>t(e),t),swap:e=>(t,r)=>e(r,t),curry:(()=>{const e=(t,r,n)=>(...a)=>(r=>r.length>=n?t(...r):e(t,r,n-r.length))([...r,...a]);return(t,...r)=>e(t,r,t.length)})(),guid:(r=()=>Math.floor(65536*(1+Math.random())).toString(16).substring(1),()=>`${r()}${r()}-${r()}-${r()}-${r()}-${r()}${r()}${r()}`),hash:function(e){let t,r,n=1,a=0;if(e)for(n=0,t=e.length-1;t>=0;t--)r=e.charCodeAt(t),n=(n<<6&268435455)+r+(r<<14),a=266338304&n,n=0!==a?n^a>>21:n;return String(n)}})},function(e,t){Object.urlParse=function(e,t={}){if(!e)return{path:[],params:{},target:"",...t};if("object"==typeof e)return{path:[],params:{},target:"",...t,...e};let r;if(r=e.indexOf(":"),r>-1&&(t.type=e.slice(0,r),e=e.slice(r+1)),r=e.indexOf("#"),r>-1&&(t.data=Object.decode(e.slice(r+1)),e=e.slice(0,r)),r=e.indexOf("?"),t.params=t.params||{},r>-1){for(let n of e.slice(r+1).split("&")){let[e,r]=n.split("=");r&&(t.params[e]=Object.decode(r))}e=e.slice(0,r)}let n=t.path=e.split("/").map(decodeURIComponent);for(;n.length&&!t.target;)t.target=n.shift();return t},Object.urlStringify=function(e){let t="";if(!e)return t;if("string"==typeof e)return e;e.target&&(e.type&&(t+=`${e.type}://`),t+=e.target),e.path&&(t+=`/${Array.isArray(e.path)?e.path.map(encodeURIComponent).join("/"):e.path}`);const r=e.params;if(r){const e=Object.keys(r).filter(e=>null!=r[e]);e.length&&(t+=`?${e.map(e=>`${e}=${Object.encode(r[e])}`).join("&")}`)}return e.data&&(t+=`#${Object.encode(e.data)}`),t}},function(e,t,r){"use strict";r.r(t);r(0),r(1),r(2),r(3),r(4);const n={ru:{monthNames:["","Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],monthNamesShort:["","Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"],dayNames:["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"],dayNamesShort:["Вс","Пн","Вт","Ср","Чт","Пт","Сб"]},en:{monthNames:["","January","February","March","April","May","June","July","August","September","October","November","December"],monthNamesShort:["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],dayNames:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],dayNamesShort:["Su","Mo","Tu","We","Th","Fr","Sa"]}};Date.orNow=e=>e?Date.narrow(e):new Date,Date.l18n=e=>Object.dig(n[Date.LOCALE||"ru"],e),Date.daysInMonth=(e,t)=>new Date(t,e+1,0).getDate(),Date.monthName=(e,t="")=>Date.l18n(`monthNames${t}.${e}`),Date.fractions=(e=new Date)=>[e.getFullYear(),e.getMonth(),e.getDate(),e.getHours(),e.getMinutes(),e.getSeconds(),e.getMilliseconds()],Date.parseISO8601=function(e){Function.assert("string"==typeof e,`Date.parseISO8601: not a string: ${e}`),10===e.length&&(e+="T12:00");const t=/^([0-9]{4})-([0-9]{2})-([0-9]{2})[ T]([0-9]{2}):([0-9]{2})(?::([0-9]*)(\.[0-9]*)?)?(Z?)(([+-])([0-9]{2})([0-9]{2}))?/.exec(e);if(!t)return null;const r=t[8]?t[9]?("+"===t[10]?-1:1)*(60*parseInt(t[11])+parseInt(t[12])):0:(new Date).getTimezoneOffset(),n=Date.UTC(parseInt(t[1]),parseInt(t[2])-1,parseInt(t[3]),parseInt(t[4]),parseInt(t[5]),t[6]&&parseInt(t[6])||0,t[7]&&parseFloat(t[7])||0);return new Date(n+6e4*r)},Date.narrow=e=>{const t=typeof e;if(null==e)return null;if("number"===t||+e==e)return new Date(+e);if("object"===t){if(e.getTime)return e;if(e.toDate)return e.toDate();if(e.seconds&&null!=e.nanoseconds)return new Date(1e3*e.seconds+e.nanoseconds)}return Date.parseISO8601(e)};const a={hh:e=>String.pad(e.getHours()),ii:e=>String.pad(e.getMinutes()),hi:e=>String.pad(e.getHours())+":"+String.pad(e.getMinutes()),dd:e=>String.pad(e.getDate()),w:e=>""+Date.l18n(`dayNames.${e.getDay()}`),ww:e=>""+Date.l18n(`dayNamesShort.${e.getDay()}`),d:e=>""+e.getDate(),mmmm:e=>Date.monthName(e.getMonth()+1,""),mmm:e=>Date.monthName(e.getMonth()+1,"Short"),mm:e=>String.pad(e.getMonth()+1),yyyy:e=>`${e.getFullYear()}`,ll:e=>`${e.getTime()}`};Date.format=(e,t="yyyy-mm-dd")=>{if(!e)return"";const r=Date.narrow(e);return r?t.replace(/[_]/g,"\n").replace(/[hidwmyl]+/g,e=>{const t=a[e];return t?t(r):e}):""},Date.dateKey=e=>{const t=Date.narrow(e).getTime();return Date.format(t-t%864e5+432e5,"yyyy-mm-dd")},Date.firstOfWeek=(e,t=Date.narrow(e))=>new Date(t.getFullYear(),t.getMonth(),t.getDate()-t.getDay());t.default={...Function,str:String,arr:Array,obj:Object,date:Object.assign((e,t)=>Date.format(e,t),Date)}}]);
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./src/arr.js":
+/*!********************!*\
+  !*** ./src/arr.js ***!
+  \********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/** ***********************
+ * Arrays.
+ */
+Array.EMPTY = Object.freeze([]);
+
+Array.slice = (x, b = 0, e) => x ? x.slice(b, e) : [];
+/**
+ * Builds histogram on given field for given list.
+ *
+ * @param {*} list source
+ * @param {*} field to be used as group key
+ */
+
+
+Array.groupBy = function (list, field = 'type') {
+  const result = {};
+  const fieldFn = typeof field === 'string' ? e => e[field] : field;
+
+  const iter = (v, entry) => {
+    const slot = result[v] || (result[v] = {
+      id: v,
+      count: 0,
+      subs: []
+    });
+    slot.count++;
+    (slot.items || (slot.items = slot.subs)).push(entry);
+  };
+
+  (list || []).forEach(e => {
+    const value = fieldFn(e);
+
+    if (Array.isArray(value)) {
+      value.forEach(v => iter(v, e));
+    } else {
+      iter(value, e);
+    }
+  });
+  return result;
+};
+/**
+ * Sorts array by element property.
+ *
+ * @param {*} arr source
+ * @param {*} property element property to sort by
+ * @param {*} order
+ */
+
+
+Array.sortBy = function sortBy(arr, property = 'name', order = 1) {
+  let fn = property;
+
+  if (typeof property === 'string') {
+    if (property[0] === '-') {
+      /* eslint-disable */
+      order = -1;
+      property = property.substr(1);
+    }
+
+    fn = e => e[property];
+  }
+
+  function compare(a, b) {
+    const aa = fn(a);
+    const bb = fn(b);
+    /* eslint-disable */
+
+    return aa < bb ? -order : aa > bb ? order : 0;
+  }
+
+  return (arr || []).slice(0).sort(compare);
+};
+/**
+ * Produces key/value index on given array.
+ * 
+ * @param {*} arr source array
+ * @param {*} idKey id key
+ * @param {*} valKey value key
+ */
+
+
+Array.index = Array.toHash = (arr, idKey = 'id', valKey) => {
+  const r = {};
+
+  if (arr) {
+    const isKeyFn = typeof idKey === 'string' ? e => e[idKey] : idKey;
+    arr.forEach(e => {
+      r[isKeyFn(e)] = valKey ? e[valKey] : e;
+    });
+  }
+
+  return r;
+};
+
+/***/ }),
+
+/***/ "./src/date.js":
+/*!*********************!*\
+  !*** ./src/date.js ***!
+  \*********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+const R = {
+  ru: {
+    monthNames: ['', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+    monthNamesShort: ['', 'Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+    dayNames: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+    dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+  },
+  en: {
+    monthNames: ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    monthNamesShort: ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    dayNamesShort: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+  }
+};
+
+Date.orNow = x => x ? Date.narrow(x) : new Date();
+
+Date.l18n = key => Object.dig(R[Date.LOCALE || 'ru'], key);
+
+Date.daysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
+
+Date.firstOfWeek = (d, x = Date.narrow(d)) => new Date(x.getFullYear(), x.getMonth(), x.getDate() - x.getDay());
+
+Date.monthName = (m, mode = '') => Date.l18n(`monthNames${mode}.${m}`);
+
+Date.fractions = (x = new Date()) => [x.getFullYear(), x.getMonth(), x.getDate(), x.getHours(), x.getMinutes(), x.getSeconds(), x.getMilliseconds()];
+
+Date.parseISO8601 = function (x) {
+  Function.assert(typeof x === 'string', `Date.parseISO8601: not a string: ${x}`);
+
+  if (x.length === 10) {
+    x += 'T12:00';
+  }
+
+  const timebits = /^([0-9]{4})-([0-9]{2})-([0-9]{2})[ T]([0-9]{2}):([0-9]{2})(?::([0-9]*)(\.[0-9]*)?)?(Z?)(([+-])([0-9]{2})([0-9]{2}))?/;
+  const m = timebits.exec(x);
+
+  if (!m) {
+    return null;
+  }
+
+  const tz = m[8] ? !m[9] ? 0 : (m[10] === '+' ? -1 : +1) * (parseInt(m[11]) * 60 + parseInt(m[12])) : new Date().getTimezoneOffset(); // utcdate is milliseconds since the epoch
+
+  const utcdate = Date.UTC(parseInt(m[1]), parseInt(m[2]) - 1, // months are zero-offset (!)
+  parseInt(m[3]), parseInt(m[4]), parseInt(m[5]), // hh:mm
+  m[6] && parseInt(m[6]) || 0, // optional seconds
+  m[7] && parseFloat(m[7]) || 0);
+  return new Date(utcdate + tz * 60000);
+};
+/**
+ * Universal all-weather converter to Date.
+ *
+ * @param {*} x any value to be converted to date
+ * @returns Date instance or null
+ */
+
+
+Date.narrow = x => {
+  const type = typeof x;
+
+  if (x == null) {
+    return null;
+  }
+
+  if (type === 'number' || +x == x) {
+    return new Date(+x);
+  }
+
+  if (type === 'object') {
+    // Date already
+    if (x.getTime) {
+      return x;
+    } // having a date re-presentation method
+
+
+    if (x.toDate) {
+      return x.toDate();
+    } // firestore timestamp for web
+
+
+    if (x.seconds && x.nanoseconds != null) {
+      return new Date(x.seconds * 1000 + x.nanoseconds);
+    }
+  }
+
+  return Date.parseISO8601(x);
+};
+
+Date.formatTimezone = tzOffset => {
+  const toNumber = Number(tzOffset);
+  return toNumber ? toNumber >= 0 ? `+${String.pad(toNumber / 60)}:${String.pad(toNumber % 60)}` : `-${String.pad(-toNumber / 60)}:${String.pad(-toNumber % 60)}` : '';
+};
+
+const DATE_FORMATTERS = {
+  hh: date => String.pad(date.getHours()),
+  ii: date => String.pad(date.getMinutes()),
+  hi: date => String.pad(date.getHours()) + ':' + String.pad(date.getMinutes()),
+  dd: date => String.pad(date.getDate()),
+  w: date => '' + Date.l18n(`dayNames.${date.getDay()}`),
+  ww: date => '' + Date.l18n(`dayNamesShort.${date.getDay()}`),
+  d: date => '' + date.getDate(),
+  mmmm: date => Date.monthName(date.getMonth() + 1, ''),
+  mmm: date => Date.monthName(date.getMonth() + 1, 'Short'),
+  mm: date => String.pad(date.getMonth() + 1),
+  yyyy: date => `${date.getFullYear()}`,
+  ll: date => `${date.getTime()}`,
+  z: date => `Z${Date.formatTimezone(date.getTimezoneOffset())}`
+};
+
+Date.format = (x, format = 'yyyy-mm-dd') => {
+  if (!x) {
+    return '';
+  }
+
+  const date = Date.narrow(x);
+  return !date ? '' : format.replace(/[_]/g, '\n').replace(/[hidwmylz]+/g, key => {
+    const fn = DATE_FORMATTERS[key];
+    return fn ? fn(date) : key;
+  });
+};
+
+Date.dateKey = d => {
+  const ms = Date.narrow(d).getTime();
+  return Date.format(ms - ms % (24 * 3600000) + 12 * 3600000, 'yyyy-mm-dd');
+};
+
+/***/ }),
+
+/***/ "./src/fn.js":
+/*!*******************!*\
+  !*** ./src/fn.js ***!
+  \*******************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * Functions
+ */
+Object.assign(Function, {
+  ID: x => x,
+  next: (COUNTER => (p = '') => p + COUNTER++)(1),
+  // system
+  throw: (error, ErrorType = Error) => {
+    throw typeof error === 'string' ? new ErrorType(error) : error;
+  },
+  assert: (b, error, ErrorType = Error) => {
+    if (!b) {
+      throw typeof error === 'string' ? new ErrorType(error) : error;
+    }
+  },
+  log: (x, pre) => {
+    console.log(pre || 'pipe', x);
+    return x;
+  },
+  track: (fn, x, y) => (...args) => {
+    console.log('track', x || y);
+    return (fn || Function.ID)(...args);
+  },
+  // eslint-disable-next-line no-debugger
+  debugger: () => {
+    debugger;
+  },
+  // data structures
+  dot: (x, k) => x ? x[k] : null,
+  includes: (x, p) => x.includes && x.includes(p),
+  // logical
+  then: (x, p = '', n = '') => x ? p : n,
+  not: x => !x,
+  isUndefined: x => typeof x === 'undefined',
+  isTrue: x => x === true,
+  isFalse: x => x === false,
+  or: (x, s) => x || s,
+  and: (x, s) => x && s,
+  // math
+  // eslint-disable-next-line eqeqeq
+  equals: (x, p) => x == p,
+  greater: (x, p) => x > p,
+  less: (x, p) => x < p,
+  plus: (x, alt) => +x + +alt,
+  minus: (x, alt) => +x - +alt,
+  multiply: (x, alt) => +x * +alt,
+  compose: (...ff) => x0 => ff.reduceRight((x, f) => f(x), x0),
+  swap: f => (a, b) => f(b, a),
+  curry: (() => {
+    const _curry = (fn, args0, lengthLimit) => {
+      const fx = args => args.length >= lengthLimit ? fn(...args) : _curry(fn, args, lengthLimit - args.length);
+
+      return (...args) => fx([...args0, ...args]);
+    };
+
+    return (f, ...args) => _curry(f, args, f.length);
+  })(),
+
+  /* Simple GUID generator. */
+  guid: (s4 => () => `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`)(() => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)),
+
+  /* Simple hash function. */
+  hash: function (s) {
+    let a = 1,
+        c = 0,
+        h,
+        o;
+
+    if (s) {
+      a = 0;
+      /* jshint plusplus:false bitwise:false */
+
+      for (h = s.length - 1; h >= 0; h--) {
+        o = s.charCodeAt(h);
+        a = (a << 6 & 268435455) + o + (o << 14);
+        c = a & 266338304;
+        a = c !== 0 ? a ^ c >> 21 : a;
+      }
+    }
+
+    return String(a);
+  }
+});
+
+/***/ }),
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/*! exports provided: pipes */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pipes", function() { return pipes; });
+/* harmony import */ var _obj_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./obj.js */ "./src/obj.js");
+/* harmony import */ var _obj_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_obj_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _str_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./str.js */ "./src/str.js");
+/* harmony import */ var _str_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_str_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _arr_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./arr.js */ "./src/arr.js");
+/* harmony import */ var _arr_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_arr_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _fn_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fn.js */ "./src/fn.js");
+/* harmony import */ var _fn_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_fn_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _date_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./date.js */ "./src/date.js");
+/* harmony import */ var _date_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_date_js__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+ // useful pipes
+
+const pipes = { ...Function,
+  str: String,
+  arr: Array,
+  obj: Object,
+  date: Object.assign((s, format) => Date.format(s, format), Date)
+};
+
+/***/ }),
+
+/***/ "./src/obj.js":
+/*!********************!*\
+  !*** ./src/obj.js ***!
+  \********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+Object.EMPTY = Object.freeze({});
+/**
+ * Checks if argument is empty .
+ */
+
+Object.isEmpty = x => {
+  if (!x) {
+    return true;
+  }
+
+  if (x instanceof Object) {
+    // (zero-length array)
+    if (Array.isArray(x)) {
+      return x.length === 0;
+    } // (zero-size map)
+
+
+    if (x instanceof Map) {
+      return x.size === 0;
+    } // (has no props)
+
+
+    return Object.keys(x).length === 0;
+  }
+
+  return false;
+};
+/**
+ * Digs value in a given object structure by a given path.
+ *
+ * @param {*} o source object
+ * @param {*} steps path
+ * @param {*} def default value
+ */
+
+
+Object.dig = (o, steps) => steps.split('.').reduce((r, e) => r ? r[e] : undefined, o);
+
+Object.dot = (x, k) => x ? x[k] : null;
+
+const VALUE_MAP = {
+  true: true,
+  false: false,
+  undefined
+};
+
+Object.decode = val => {
+  const value = decodeURIComponent(val);
+
+  if ('{['.indexOf(value[0]) > -1) {
+    return JSON.parse(value);
+  }
+
+  const num = +value;
+
+  if (value.length <= 17 && !isNaN(num)) {
+    return num;
+  }
+
+  return VALUE_MAP[value] || value;
+};
+
+Object.encode = value => {
+  return encodeURIComponent(typeof value === 'object' ? JSON.stringify(value) : `${value}`);
+};
+/**
+ * Parses string into URL object like `{type, target, path, params, data }`.
+ *
+ * @param {string} s string in format: `type:target/path?params#data`
+ * @param {object} r optional target object
+ * @returns URL object 
+ */
+
+
+Object.urlParse = function (s, r = {}) {
+  if (!s) {
+    return {
+      path: [],
+      params: {},
+      target: '',
+      ...r
+    };
+  }
+
+  if (typeof s === 'object') {
+    return {
+      path: [],
+      params: {},
+      target: '',
+      ...r,
+      ...s
+    };
+  }
+
+  let p; // extract type:
+
+  p = s.indexOf(':');
+
+  if (p > -1) {
+    r.type = s.slice(0, p);
+    s = s.slice(p + 1);
+  } // extract data:
+
+
+  p = s.indexOf('#');
+
+  if (p > -1) {
+    r.data = Object.decode(s.slice(p + 1));
+    s = s.slice(0, p);
+  } // extract query params:
+
+
+  p = s.indexOf('?');
+  r.params = r.params || {};
+
+  if (p > -1) {
+    for (let param of s.slice(p + 1).split('&')) {
+      let [key, value] = param.split('=');
+
+      if (value) {
+        r.params[key] = Object.decode(value);
+      }
+    }
+
+    s = s.slice(0, p);
+  } // target and path:
+
+
+  let path = r.path = s.split('/').map(decodeURIComponent);
+
+  while (path.length && !r.target) {
+    r.target = path.shift();
+  }
+
+  return r;
+};
+/**
+*  Represents an URL object as a string
+*
+* @param {object} r URL object like `{type, target, path, params, data }`
+* @returns string in format `type://target/path?params#data`
+*/
+
+
+Object.urlStringify = function (r) {
+  let result = '';
+
+  if (!r) {
+    return result;
+  }
+
+  if (typeof r === 'string') {
+    return r;
+  }
+
+  if (r.target) {
+    if (r.type) {
+      result += `${r.type}://`;
+    }
+
+    result += r.target;
+  }
+
+  if (r.path) {
+    result += `/${Array.isArray(r.path) ? r.path.map(encodeURIComponent).join('/') : r.path}`;
+  }
+
+  const params = r.params;
+
+  if (params) {
+    const keys = Object.keys(params).filter(key => params[key] != null);
+
+    if (keys.length) {
+      result += `?${keys.map(key => `${key}=${Object.encode(params[key])}`).join('&')}`;
+    }
+  }
+
+  if (r.data) {
+    result += `#${Object.encode(r.data)}`;
+  }
+
+  return result;
+};
+
+/***/ }),
+
+/***/ "./src/str.js":
+/*!********************!*\
+  !*** ./src/str.js ***!
+  \********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function capitalize(x) {
+  if (!x) {
+    return x;
+  }
+
+  const s = `${x}`;
+  return s[0].toUpperCase() + s.slice(1);
+}
+
+function camelize(s, sep = '_') {
+  return s && s.length && s.split(sep).map((t, i) => i ? capitalize(t) : t).join('') || ``;
+}
+/**
+ * Formats given string template with params.
+ *
+ * Template should contain placeholders like `{someKey}`,
+ * which will be replaced with value by key from params.
+ *
+ * @param {string} template string template
+ * @param {object} params hash with parameters
+ */
+
+
+String.format = (template, params) => {
+  return `${template || ''}`.replace(/\{([\S]+)\}/i, (_, key) => (params && params[key]) != null ? params[key] : '');
+};
+
+String.wrap = (x, template) => {
+  return !x ? '' : `${template || '*'}`.replace('*', x);
+};
+
+String.tail = (x, sep = '.') => {
+  if (!x) {
+    return '';
+  }
+
+  const pos = x.lastIndexOf(sep);
+  return pos === -1 ? x : x.slice(pos + sep.length);
+};
+
+String.lastTail = (key, sep = '.') => ('' + key).split(sep).slice(-1)[0];
+
+String.head = (x, sep = '.') => {
+  if (!x) {
+    return '';
+  }
+
+  const pos = x.indexOf(sep);
+  return pos === -1 ? x : x.slice(0, pos);
+};
+
+String.pad = (x, size = 2, fill = '0') => {
+  let s = String(x);
+
+  while (s.length < size) {
+    s = `${fill}${s}`;
+  }
+
+  return s;
+};
+
+String.capitalize = capitalize;
+String.camelize = camelize;
+
+String.mirror = x => (x || '').split('').reduce((r, c) => c + r, '');
+
+String.snakeCase = x => (x || '').replace(/([a-z])([A-Z])/g, '$1_$2');
+
+String.proper = s => capitalize(camelize(s));
+
+String.upper = s => ('' + s).toUpperCase();
+
+/***/ }),
+
+/***/ 0:
+/*!****************************!*\
+  !*** multi ./src/index.js ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./src/index.js */"./src/index.js");
+
+
+/***/ })
+
+/******/ });
+});
+//# sourceMappingURL=main.js.map
