@@ -1,0 +1,28 @@
+{
+  "name": "ultimus",
+  "version": "1.0.6",
+  "description": "ultimate utility pack",
+  "scripts": {
+    "start": "npx webpack-dev-server --hot --contentBase docs",
+    "build": "npx webpack-cli",
+    "publish": "npm run build && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alitskevich/ultimus.git"
+  },
+  "author": "alitskevich",
+  "license": "MIT",
+  "main": "dist/main.js",
+  "devDependencies": {
+    "@babel/cli": "^7.7.4",
+    "@babel/core": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0"
+  }
+}
