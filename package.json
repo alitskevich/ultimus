@@ -1,6 +1,6 @@
 {
   "name": "ultimus",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "ultimate utility pack",
   "scripts": {
     "start": "npx webpack-dev-server --hot --contentBase docs",

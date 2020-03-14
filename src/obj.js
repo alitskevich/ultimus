@@ -29,27 +29,30 @@ Object.isEmpty = (x) => {
  * @param {*} steps path
  * @param {*} def default value
  */
-Object.dig = (o, steps) => steps.split('.').reduce((r, e) => r ? r[e] : undefined, o);
+Object.dig = (o, steps) => (steps.reduce ? steps : steps.split('.')).reduce((r, e) => r ? r[e] : undefined, o);
 
-Object.dot = (x, k) => x ? x[k] : null
-
-const VALUE_MAP = {
-  true: true,
-  false: false,
-  undefined
-};
+Object.dot = (x, k) => x && k in x ? x[k] : undefined
 
 Object.decode = (val) => {
   const value = decodeURIComponent(val);
   if ('{['.indexOf(value[0]) > -1) {
     return JSON.parse(value);
   }
-  const num = +value;
-  if (value.length <= 17 && !isNaN(num)) {
-    return num;
+  return Object.decodePrimitive(val)
+};
+
+Object.decodePrimitive = (map => value => {
+  if (value && '1234567890+-'.includes(value[0]) && value.length <= 17) {
+    const num = +value
+    return isNaN(num) ? value : num
   }
-  return VALUE_MAP[value] || value;
-}
+  return value in map ? map[value] : value
+})({
+  true: true,
+  false: false,
+  null: null,
+  undefined
+})
 
 Object.encode = (value) => {
   return encodeURIComponent((typeof value === 'object') ? JSON.stringify(value) : `${value}`);
